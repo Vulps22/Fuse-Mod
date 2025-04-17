@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Blueprints/CubeBlocks/CubeBlocks.xsd">
+	<CubeBlocks>
+
+		<Definition xsi:type="MyObjectBuilder_ControlPanelDefinition">
+			<Id>
+				<TypeId>ControlPanel</TypeId>
+				<SubtypeId>FuseBlock</SubtypeId>
+			</Id>
+			<DisplayName>Fuse Breaker</DisplayName>
+			<Icon>Icons\FuseBox.dds</Icon>
+			<Description>Toggleable fuse breaker switch</Description>
+			<CubeSize>Large</CubeSize>
+			<BlockTopology>TriangleMesh</BlockTopology>
+			<Size x="1" y="1" z="1" />
+			<ModelOffset x="0" y="0" z="-0.7"/>
+			<Model>Models\Cubes\large\FuseBox.mwm</Model>
+			<Components>
+				<Component Subtype="Construction" Count="5" />
+				<Component Subtype="Computer" Count="3" />
+				<Component Subtype="InteriorPlate" Count="3" />
+			</Components>
+			<CriticalComponent Subtype="Computer" Index="1" />
+			<MountPoints>
+				<MountPoint Side="Front" StartX="0.32" StartY="0.35" EndX="0.68" EndY="0.99" Enabled="true"/>
+				<MountPoint Side="Back" StartX="0.00" StartY="0.00" EndX="1.00" EndY="1.00" Enabled="false"/>
+				<MountPoint Side="Left" StartX="0.00" StartY="0.00" EndX="1.00" EndY="1.00" Enabled="false"/>
+				<MountPoint Side="Right" StartX="0.00" StartY="0.00" EndX="1.00" EndY="1.00" Enabled="false"/>
+				<MountPoint Side="Top" StartX="0.00" StartY="0.00" EndX="1.00" EndY="1.00" Enabled="false"/>
+				<MountPoint Side="Bottom" StartX="0.00" StartY="0.00" EndX="1.00" EndY="1.00" Enabled="false"/>
+			</MountPoints>
+			<EdgeType>Light</EdgeType>
+			<MirroringY>Z</MirroringY>
+			<MirroringZ>Y</MirroringZ>
+			<BuildTimeSeconds>10</BuildTimeSeconds>
+			<ResourceSinkGroup>Utility</ResourceSinkGroup>
+			<PCU>5</PCU>
+			<IsStandAlone>false</IsStandAlone>
+			<IsAirTight>false</IsAirTight>
+
+			<GameLogic>
+				<Script>Scripts\FuseMod\FuseLogic.cs</Script>
+			</GameLogic>
+			
+			<Subparts>
+				<SubpartDefinition>
+					<Name>Lever</Name>
+				</SubpartDefinition>
+			</Subparts>
+			
+		</Definition>
+	</CubeBlocks>
+</Definitions>
