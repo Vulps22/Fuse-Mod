@@ -23,6 +23,7 @@ namespace FuseMod
         private IMyTerminalBlock block;
         private IMyFunctionalBlock attachedBlock;
         private bool tripped = true;
+        public bool TrippedByDamage = false;
         private bool leverPosition = false; //true == down == tripped, false == up == safe
         private bool initialized = false;
         private Matrix baseMatrix;
@@ -31,6 +32,7 @@ namespace FuseMod
         private const float maxAngle = 185f; // degrees
         private const float minAngle = 125f; // degrees
         private const float rotationSpeed = 1f; // degrees per tick
+        private float lastDamage = 0f; // last damage value to compare against
 
         public static IMyTerminalControlOnOffSwitch toggle;
 
@@ -175,16 +177,26 @@ namespace FuseMod
 
             if (damage <= 0)
             {
+                TrippedByDamage = false; // Reset tripped by damage flag
+                lastDamage = 0; // Reset last damage
                 // Block is undamaged
                 return false;
             }
 
+            // If the block has not sustained more damage, respect the status quo
+            if (damage <= lastDamage) return TrippedByDamage;
+            lastDamage = damage;
             // % chance to trip based on damage
             float damageRatio = damage / maxIntegrity; // 0 to 1
             float chanceToTrip = damageRatio * 0.5f;    // up to 50% max
 
             double roll = MyUtils.GetRandomDouble(0.0, 1.0);
             bool trip = roll < chanceToTrip;
+
+            if (trip)
+            {
+                TrippedByDamage = true;
+            }
 
             Logger.DebugToChat($"[FuseLogic] Damage: {damage:F2}/{maxIntegrity:F2}, TripChance: {chanceToTrip:P0}, Roll: {roll:F2} -> {(trip ? "TRIP" : "PASS")}");
 
