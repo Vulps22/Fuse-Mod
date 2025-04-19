@@ -123,7 +123,7 @@ namespace FuseMod
                 {
                     fuseBlock = terminal;
                     fuseLogic = logic;
-                    fuseLogic.SetAttachedBlock(Block);
+                    fuseLogic.SetAttachedBlock(this);
                     Logger.DebugToChat($"[Fuse] Connected to {fuseBlock.CustomName} at {pos}");
                     return;
                 }
