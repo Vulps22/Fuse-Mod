@@ -136,6 +136,7 @@ namespace FuseMod
             if (block != null)
             {
                 block.AppendingCustomInfo -= AppendInfo;
+                attachedBlock.RecheckFuse();
             }
         }
 

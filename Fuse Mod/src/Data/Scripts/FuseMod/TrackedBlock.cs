@@ -109,7 +109,9 @@ namespace FuseMod
             sb.AppendLine(fuseStatus);
         }
 
-
+        /// <summary>
+        /// Finds a fuse block adjacent to this block and sets it up for power control.
+        /// </summary>
         private void FindNearbyFuse()
         {
             var grid = Block.CubeGrid;
@@ -128,6 +130,10 @@ namespace FuseMod
                     return;
                 }
             }
+
+            // If no fuse block was found, reset the fuse logic
+            fuseBlock = null;
+            fuseLogic = null;
 
 
             Logger.DebugToChat($"[FindFuse] Block '{Block.CustomName}' is NOT protected by a fuse.");
@@ -150,6 +156,10 @@ namespace FuseMod
             return !isTripped;
         }
 
+        /// <summary>
+        /// Recheck the fuse connection for this block.
+        /// <see cref="FindNearbyFuse"/> is used to locate candidate fuses.
+        /// </summary>
         public void RecheckFuse()
         {
             FindNearbyFuse();
