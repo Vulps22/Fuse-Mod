@@ -21,7 +21,7 @@ namespace FuseMod
     public class FuseLogic : MyGameLogicComponent
     {
         private IMyTerminalBlock block;
-        private IMyFunctionalBlock attachedBlock;
+        private TrackedBlock attachedBlock;
         private bool tripped = true;
         public bool TrippedByDamage = false;
         private bool leverPosition = false; //true == down == tripped, false == up == safe
@@ -92,7 +92,7 @@ namespace FuseMod
 
             if (attachedBlock == null) return;
 
-            var sink = attachedBlock.Components.Get<MyResourceSinkComponent>();
+            var sink = attachedBlock.Block.Components.Get<MyResourceSinkComponent>();
             // Additional power logic can be implemented here.
         }
 
@@ -134,7 +134,10 @@ namespace FuseMod
         public override void Close()
         {
             if (block != null)
+            {
                 block.AppendingCustomInfo -= AppendInfo;
+                attachedBlock.RecheckFuse();
+            }
         }
 
         private void AppendInfo(IMyTerminalBlock b, System.Text.StringBuilder info)
@@ -158,7 +161,7 @@ namespace FuseMod
         {
             if (attachedBlock == null)
                 return true;
-            var targetPos = attachedBlock.Position;
+            var targetPos = attachedBlock.Block.Position;
 
             var grid = block.CubeGrid;
             var slim = grid.GetCubeBlock(targetPos);
@@ -203,10 +206,10 @@ namespace FuseMod
             return trip;
         }
 
-        public void SetAttachedBlock(IMyFunctionalBlock block)
+        public void SetAttachedBlock(TrackedBlock block)
         {
             attachedBlock = block;
-            Logger.DebugToChat($"[Fuse Logic] Attached block set: {attachedBlock.CustomName}");
+            Logger.DebugToChat($"[Fuse Logic] Attached block set: {attachedBlock.Block.CustomName}");
         }
     }
 }
